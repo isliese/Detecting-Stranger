@@ -1,6 +1,14 @@
 # Detecting-Stranger
 
-<h3>숙명여자대학교 인공지능공학부 CODE - IT  학회 2024 여름방학 프로잭트</h3>
+<h4>숙명여자대학교 인공지능공학부 CODE - IT  학회 2024 여름방학 프로잭트</h4>
+
+
+<details>
+  <summary><h3>프로젝트 소개</h3>
+  </summary>
+초인종이 울렸을 때 현관 앞에 나타난 사람의 얼굴을 인식해서 사전에 등록된 사람이 아닐 경우, 가족에게 알림을 주고 신고까지 이어지도록 하는 프로그램
+</details>
+
 
 <h3>언어</h3>
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
@@ -19,16 +27,17 @@
 <img src="https://img.shields.io/badge/Google Docs-4285F4?style=flat-square&logo=googledocs&logoColor=white"/>
 <img src="https://img.shields.io/badge/Kakao Talk-FFCD00?style=flat-square&logo=kakaotalk&logoColor=white"/>
 
-<details>
+
 <h3>팀원 및 참고 자료</h3>
 
 숙명여대 인공지능공학부 23학번 김찬란 <br>
 숙명여대 인공지능공학부 23학번 이연진 <br>
 숙명여대 인공지능공학부 23학번 이현진 <br>
   
-</details>
 
-<details>
+
+<h3>라이센스</h3>
+
 MIT License
 
 Copyright (c) 2024 Chanran kim
@@ -50,4 +59,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-</details>
+
