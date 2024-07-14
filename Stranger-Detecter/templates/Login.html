@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up Page</title>
+    <title>Login Page</title>
 
     <style>
         /* 스타일 정의 */
@@ -67,17 +67,6 @@
 </div>
 
 <div id="container">
-
-    <!-- username 텍스트-->
-    <div id="email">
-        User name
-    </div>
-
-    <!-- email value 박스 이미지 -->
-    <div id="username_value">
-        <img src="{{ url_for('static', filename='image/value.png') }}" alt="User name Value image" />
-    </div>
-
     <!-- email 텍스트-->
     <div id="email">
         Email
@@ -98,10 +87,10 @@
         <img src="{{ url_for('static', filename='image/value.png') }}" alt="Password Value Image" />
     </div>
 
-    <!-- sign up 버튼 이미지 (일단은 빈 CAM 선택 화면으로 넘어가게 해놓음) -->
-    <div id="signup_button">
-        <a href="{{ url_for('emptycamselect') }}">
-            <img src="{{ url_for('static', filename='image/signup_button.png') }}" alt="Sign Up Button Image" />
+    <!-- login 버튼 이미지 (일단은 누르면 Sign Up 화면으로 넘어가게 해놓음)-->
+    <div id="login_button">
+        <a href="{{ url_for('signup') }}">
+            <img src="{{ url_for('static', filename='image/login_button.png') }}" alt="Login Button Image" />
         </a>
     </div>
 </div>
