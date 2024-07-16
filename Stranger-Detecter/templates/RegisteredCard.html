@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지인 등록 카드 선택</title>
+
+    <style>
+        /* 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        #username {
+            margin-top: 20px;
+            margin-right: 20px;
+            font-weight: bold;
+            align-self: flex-end;
+        }
+
+        #back {
+            position: absolute;
+            left: 31px;
+            top: 30px;
+            width: 148px;
+            height: 27px;
+        }
+
+        #registered_person {
+            position: absolute;
+            left: 52px;
+            top: 246px;
+            width: 724px;
+            height: 41px;
+        }
+
+        .card-container {
+            display: flex;
+            overflow-x: auto; /* 가로 스크롤 가능하게 설정 */
+            width: 100%;
+            padding-top: 315px;
+        }
+
+        .name_card {
+            margin: 0 10px; /* 카드 간격 */
+            width: 346px;
+            height: 487px;
+            cursor: pointer; /* 클릭 커서 추가 */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Username 텍스트 -->
+    <div id="username">User name</div>
+
+    <!-- Back 이미지 -->
+    <a href="/camselect">
+        <img id="back" src="/static/image/Back.png" alt="Back">
+    </a>
+
+    <!-- RegisteredPerson 이미지 -->
+    <img id="registered_person" src="/static/image/RegisteredPerson.png" alt="Registered Person">
+
+    <!-- NameCard 컨테이너 -->
+    <div class="card-container">
+        <img class="name_card" src="/static/image/NameCard.png" alt="Name Card" onclick="changeImage(this)">
+        <img class="name_card" src="/static/image/NameCard.png" alt="Name Card" onclick="changeImage(this)">
+        <img class="name_card" src="/static/image/NameCard.png" alt="Name Card" onclick="changeImage(this)">
+        <img class="name_card" src="/static/image/NameCard.png" alt="Name Card" onclick="changeImage(this)">
+        <img class="name_card" src="/static/image/NameCard.png" alt="Name Card" onclick="changeImage(this)">
+        <img class="name_card" src="/static/image/NameCard.png" alt="Name Card" onclick="changeImage(this)">
+    </div>
+
+    <script>
+        function changeImage(element) {
+            if (element.src.includes("NameCard.png")) {
+                element.src = "/static/image/NameCardBack.png";
+            } else {
+                element.src = "/static/image/NameCard.png";
+            }
+        }
+    </script>
+</body>
+
+</html>
