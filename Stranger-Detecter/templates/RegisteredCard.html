@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지인 등록 카드 선택</title>
+    <style>
+        /* 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        #username {
+            margin-top: 20px;
+            margin-right: 20px;
+            font-weight: bold;
+            align-self: flex-end;
+        }
+
+        #back {
+            position: absolute;
+            left: 31px;
+            top: 30px;
+            width: 148px;
+            height: 27px;
+        }
+
+        #registered_person {
+            position: absolute;
+            left: 52px;
+            top: 246px;
+            width: 398px;
+            height: 34px;
+        }
+
+        .card-container {
+            display: flex;
+            align-items: flex-start; /* 카드와 버튼을 상단에 맞추기 */
+            overflow-x: auto; /* 가로 스크롤 가능하게 설정 */
+            overflow-y: hidden; /* 세로 스크롤 숨기기 */
+            width: 100%;
+            padding-top: 315px;
+            padding-left: 80px; /* 첫번째 카드의 왼쪽 마진 */
+            position: relative; /* z-index와의 상호작용을 위해 상대 위치 설정 */
+        }
+
+        .card {
+            perspective: 1000px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .name_card {
+            width: 346px;
+            height: 487px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card.flipped .name_card {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        #add-person {
+            cursor: pointer;
+            width: 125px;
+            height: 155px;
+            margin-left: 20px; /* 카드와 버튼 사이에 간격 추가 */
+            position: relative;
+            top: 140px; /* 이미지 높이를 약간 아래로 이동 */
+            z-index: 10; /* 다른 요소 위에 위치하도록 설정 */
+        }
+    </style>
+</head>
+<body>
+<!-- Username 텍스트 -->
+<div id="username">User name</div>
+
+<!-- Back 이미지 -->
+<a href="/camselect">
+    <img id="back" src="/static/image/Back.png" alt="Back">
+</a>
+
+<!-- RegisteredPerson 이미지 -->
+<img id="registered_person" src="/static/image/RegisteredPerson.png" alt="Registered Person">
+
+<!-- NameCard 컨테이너 -->
+<div id="cardContainer" class="card-container">
+    <!-- 동적으로 추가되는 카드들이 여기에 위치하게 됩니다 -->
+
+    <!-- Add Person 버튼 -->
+    <img id="add-person" src="/static/image/add_person.png" alt="Add Person" onclick="addCard()">
+</div>
+
+<script>
+    function flipCard(card) {
+        // Toggle 'flipped' 클래스를 클릭된 카드의 부모 div에 추가하거나 제거합니다.
+        card.classList.toggle('flipped');
+    }
+
+    function addCard() {
+        const cardContainer = document.getElementById('cardContainer');
+
+        // 카드 HTML 구조 생성
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'card';
+
+        // 카드 클릭 시 플립
+        cardDiv.addEventListener('click', function() {
+            flipCard(this);
+        });
+
+        const nameCardDiv = document.createElement('div');
+        nameCardDiv.className = 'name_card';
+
+        const frontImg = document.createElement('img');
+        frontImg.className = 'front';
+        frontImg.src = '/static/image/NameCard.png';
+        frontImg.alt = 'Name Card';
+
+        const backDiv = document.createElement('div');
+        backDiv.className = 'back';
+
+        const backImg = document.createElement('img');
+        backImg.src = '/static/image/NameCardBack.png';
+        backImg.alt = 'Name Card Back';
+
+        backDiv.appendChild(backImg);
+
+        nameCardDiv.appendChild(frontImg);
+        nameCardDiv.appendChild(backDiv);
+
+        cardDiv.appendChild(nameCardDiv);
+
+        // 카드 컨테이너에 추가
+        cardContainer.insertBefore(cardDiv, document.getElementById('add-person'));
+    }
+</script>
+</body>
+</html>
