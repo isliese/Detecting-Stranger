@@ -39,6 +39,7 @@ def index():
     return render_template('Home1.html')
 
 
+
 @app.route('/Home2')
 @login_required
 def home2():
@@ -120,12 +121,14 @@ def cam2():
 
 @app.route('/RegisteredCard')
 @login_required
+
 def registeredcard():
     return render_template('RegisteredCard.html')
 
 @app.route('/EditCard')
 def editcard():
     return render_template('EditCard.html')
+
 
 
 #@app.route('/users')
@@ -143,4 +146,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         print("Database initialized.")
+
     app.run(debug=True, port=5000)
