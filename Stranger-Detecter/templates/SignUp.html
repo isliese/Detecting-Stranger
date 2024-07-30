@@ -51,60 +51,80 @@
         @media (min-width: 600px) {
             #container img {
                 width: 40vw;
-
             }
         }
 
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* 이미지 크기 조정 */
+        #signup_button img {
+            max-width: 200px; /* 원하는 최대 너비로 설정 */
+            height: auto; /* 비율에 맞게 자동 조정 */
+        }
 
     </style>
 </head>
 
 <body>
 
-<!-- Title 이미지 -->
-<div id="title_bar">
-    <img src="{{ url_for('static', filename='image/title_bar.png') }}" alt="Title Image" />
-</div>
 
-<div id="container">
-
-    <!-- username 텍스트-->
-    <div id="email">
-        User name
+    <!-- Title 이미지 -->
+    <div id="title_bar">
+        <img src="{{ url_for('static', filename='image/title_bar.png') }}" alt="Title Image" />
     </div>
 
-    <!-- email value 박스 이미지 -->
-    <div id="username_value">
-        <img src="{{ url_for('static', filename='image/value.png') }}" alt="User name Value image" />
-    </div>
+    <div id="container">
+        <form method="POST" action="{{ url_for('signup') }}">
+            <!-- username 텍스트-->
+            <div id="username">
+                User name
+            </div>
+            <div id="username_value">
+                <input type="text" id="username" name="username" required>
+            </div>
 
-    <!-- email 텍스트-->
-    <div id="email">
-        Email
-    </div>
+            <!-- email 텍스트-->
+            <div id="email">
+                Email
+            </div>
+            <div id="email_value">
+                <input type="email" id="email" name="email" required>
+            </div>
 
-    <!-- email value 박스 이미지 -->
-    <div id="email_value">
-        <img src="{{ url_for('static', filename='image/value.png') }}" alt="Email Value image" />
-    </div>
+            <!-- password 텍스트 -->
+            <div id="password">
+                Password
+            </div>
+            <div id="password_value">
+                <input type="password" id="password" name="password" required>
+            </div>
 
-    <!-- password 텍스트 -->
-    <div id="password">
-        Password
+            <!-- sign up 버튼 -->
+            <div id="signup_button">
+                <button type="submit">Sign Up</button>
+            </div>
+        </form>
     </div>
-
-    <!-- password value 박스 이미지 -->
-    <div id="password_value">
-        <img src="{{ url_for('static', filename='image/value.png') }}" alt="Password Value Image" />
-    </div>
-
-    <!-- sign up 버튼 이미지 (일단은 빈 CAM 선택 화면으로 넘어가게 해놓음) -->
-    <div id="signup_button">
-        <a href="{{ url_for('emptycamselect') }}">
-            <img src="{{ url_for('static', filename='image/signup_button.png') }}" alt="Sign Up Button Image" />
-        </a>
-    </div>
-</div>
 
 </body>
 

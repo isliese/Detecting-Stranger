@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>지인 등록 카드 선택</title>
     <style>
+
         body {
             margin: 0;
             padding: 0;
@@ -19,14 +20,18 @@
 
         #username {
             margin-top: 20px;
+
             margin-right: 10px;
+
             font-weight: bold;
             align-self: flex-end;
         }
 
         #back {
             position: absolute;
+
             left: 35px;
+
             top: 30px;
             width: 148px;
             height: 27px;
@@ -42,6 +47,7 @@
 
         .card-container {
             display: flex;
+
             align-items: flex-start;
             overflow-x: auto;
             overflow-y: hidden;
@@ -49,14 +55,17 @@
             padding-top: 315px;
             padding-left: 80px;
             position: relative;
+
         }
 
         .card {
             perspective: 1000px;
             margin: 0 10px;
             cursor: pointer;
+
             position: relative;
             flex-shrink: 0;
+
         }
 
         .name_card {
@@ -76,6 +85,7 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -84,10 +94,12 @@
 
         .front {
             background: url('/static/image/NameCard.png') no-repeat center center;
+
         }
 
         .back {
             transform: rotateY(180deg);
+
             background: url('/static/image/NameCardBack.png') no-repeat center center;
         }
 
@@ -101,22 +113,26 @@
             width: auto;
             text-align: left;
             z-index: 1; /* 카드 요소 위에 위치하도록 설정 */
+
         }
 
         .edit-button {
             position: absolute;
             top: 15px;
             right: 15px;
+
             width: 53px;
             height: 40px;
             cursor: pointer;
             z-index: 10;
+
         }
 
         .edit-input {
             width: 80%;
             padding: 5px;
             position: absolute;
+
             display: none;
             z-index: 15;
         }
@@ -127,21 +143,25 @@
 
         .description-input {
             top: 35%;
+
         }
 
         .saved-text {
             position: absolute;
             width: 80%;
             text-align: center;
+
             color: white;
             font-size: 18px;
             word-wrap: break-word;
             display: none;
             z-index: 10;
+
         }
 
         .name-text {
             font-weight: bold;
+
             font-size: 22px;
             margin-bottom: 10px;
             top: 20%;
@@ -186,10 +206,12 @@
             margin-top: 140px; /* 원래 위치로 복원 */
             z-index: 10;
             flex-shrink: 0;
+
         }
     </style>
 </head>
 <body>
+
 <div id="username">User Name</div>
 
 <a href="{{ url_for('camselect') }}">
@@ -204,10 +226,12 @@
 </div>
 
 <div id="cardContainer" class="card-container">
+
     <img id="add-person" src="/static/image/add_person.png" alt="Add Person" onclick="addCard()">
 </div>
 
 <script>
+
     // 페이지가 로드될 때 실행되는 함수
     document.addEventListener('DOMContentLoaded', (event) => {
         const currentSessionID = sessionStorage.getItem('sessionID');
@@ -234,6 +258,7 @@
     function addCard(name = '', description = '') {
         const cardContainer = document.getElementById('cardContainer');
 
+
         const cardDiv = document.createElement('div');
         cardDiv.className = 'card';
 
@@ -247,6 +272,7 @@
         const nameCardDiv = document.createElement('div');
         nameCardDiv.className = 'name_card';
 
+
         const frontDiv = document.createElement('div');
         frontDiv.className = 'front';
 
@@ -254,15 +280,17 @@
         nameTextFrontDiv.className = 'name-text-front';
         nameTextFrontDiv.textContent = name;
 
+
         const backDiv = document.createElement('div');
         backDiv.className = 'back';
+
 
         const editButton = document.createElement('img');
         editButton.src = '/static/image/EditButton.png';
         editButton.alt = 'Edit Button';
         editButton.className = 'edit-button';
 
-        // 편집 버튼 클릭 시 입력 필드 토글
+
         editButton.addEventListener('click', function(event) {
             event.stopPropagation();
             toggleEditInput(this);
@@ -271,12 +299,15 @@
         const nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'edit-input name-input';
+
         nameInput.placeholder = '이름을 입력해주세요';
         nameInput.value = name;
+
 
         const descriptionInput = document.createElement('input');
         descriptionInput.type = 'text';
         descriptionInput.className = 'edit-input description-input';
+
         descriptionInput.placeholder = '설명을 입력해주세요';
         descriptionInput.value = description;
 
@@ -286,6 +317,7 @@
         });
 
         // 엔터 키를 눌러 입력 내용을 저장
+
         nameInput.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 saveText(this);
@@ -300,6 +332,7 @@
 
         const nameTextDiv = document.createElement('div');
         nameTextDiv.className = 'saved-text name-text';
+
         nameTextDiv.textContent = name;
         if (name) nameTextDiv.style.display = 'block';
 
@@ -308,15 +341,18 @@
         descriptionTextDiv.textContent = description;
         if (description) descriptionTextDiv.style.display = 'block';
 
+
         backDiv.appendChild(editButton);
         backDiv.appendChild(nameInput);
         backDiv.appendChild(descriptionInput);
         backDiv.appendChild(nameTextDiv);
         backDiv.appendChild(descriptionTextDiv);
 
+
         frontDiv.appendChild(nameTextFrontDiv);
 
         nameCardDiv.appendChild(frontDiv);
+
         nameCardDiv.appendChild(backDiv);
 
         cardDiv.appendChild(nameCardDiv);
@@ -326,6 +362,7 @@
     }
 
     // 입력 필드와 텍스트를 토글하는 함수
+
     function toggleEditInput(button) {
         const backDiv = button.parentElement;
         const nameInput = backDiv.querySelector('.name-input');
@@ -333,11 +370,13 @@
         const nameText = backDiv.querySelector('.name-text');
         const descriptionText = backDiv.querySelector('.description-text');
 
+
         // 입력 필드에 기존 값을 설정
         nameInput.value = nameText.textContent;
         descriptionInput.value = descriptionText.textContent;
 
         // 입력 필드를 토글
+
         if (nameInput.style.display === 'block' || descriptionInput.style.display === 'block') {
             nameInput.style.display = 'none';
             descriptionInput.style.display = 'none';
@@ -351,7 +390,7 @@
         descriptionText.style.display = 'block';
     }
 
-    // 입력 내용을 저장하는 함수
+
     function saveText(input) {
         const backDiv = input.parentElement;
         const nameInput = backDiv.querySelector('.name-input');
@@ -363,14 +402,17 @@
             nameTextDiv.textContent = nameInput.value;
             nameTextDiv.style.display = 'block';
             nameInput.style.display = 'none';
+
             // Update front name
             const frontDiv = backDiv.parentElement.querySelector('.front .name-text-front');
             frontDiv.textContent = nameInput.value;
+
         } else if (input === descriptionInput) {
             descriptionTextDiv.textContent = descriptionInput.value;
             descriptionTextDiv.style.display = 'block';
             descriptionInput.style.display = 'none';
         }
+
         saveCards();
     }
 
@@ -400,6 +442,7 @@
         } else {
             infoText.style.display = 'none';
         }
+
     }
 </script>
 </body>
