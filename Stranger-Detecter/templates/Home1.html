@@ -41,7 +41,21 @@
             margin-top: 20px;
         }
 
-    
+        .container {
+            display: flex;
+            align-items: center;
+            margin: 20px 0 0 30px;
+        }
+
+        #mainpage_login img {
+            max-height: 80px; /* 동일한 최대 높이 설정 */
+            width: auto; /* 비율 유지 */
+        }
+
+        #starting_now img {
+            max-height: 80px; /* 동일한 최대 높이 설정 */
+            width: auto; /* 비율 유지 */
+        }
 
         .title {
             font-size: 2em;
@@ -60,18 +74,31 @@
 
 <body>
 
-<!-- 그라데이션 박스 이미지 (일단은 누르면 로그인 화면으로 넘어가도록 해놓음)-->
-<div id="square1">
-    <a href="{{ url_for('login') }}">
-        <img src="{{ url_for('static', filename='image/square1.png') }}" alt="Square Image" />
-    </a>
-</div>
+    <!-- 그라데이션 박스 이미지 (일단은 누르면 로그인 화면으로 넘어가도록 해놓음)-->
+    <div id="square1">
+        <a href="{{ url_for('login') }}">
+            <img src="{{ url_for('static', filename='image/square1.png') }}" alt="Square Image" />
+        </a>
+    </div>
 
-<!-- 텍스트 이미지 -->
-<div id="text_home1">
-    <img src="{{ url_for('static', filename='image/text_home1.png') }}" alt="Text Image" />
-</div>
+    <!-- 텍스트 이미지 -->
+    <div id="text_home1">
+        <img src="{{ url_for('static', filename='image/text_home1.png') }}" alt="Text Image" />
+    </div>
 
+    <div class="container">
+        
+        <!--지금 바로 시작하기 이미지-->
+        <div id="starting_now">
+            <img src = "{{ url_for('static', filename = 'image/starting_now.png')}}" alt="Starting Now Image"/>
+        </div>
+
+        <!-- 로그인 이미지 -->
+        <div id="mainpage_login">
+            <a href = "{{ url_for('login')}}">
+                <img src = "{{ url_for('static', filename = 'image/mainpage_login.png')}}" alt="Login Image" />
+            </a>
+        </div>
 </body>
 
 </html>
