@@ -97,10 +97,10 @@ def emptycamselect():
 
 
 # 카메라 선택 화면
-#@app.route('/CamSelect')
-#@login_required
-#def camselect():
-    #return render_template('CamSelect.html', username = current_user.username)
+@app.route('/CamSelect')
+@login_required
+def camselect():
+    return render_template('CamSelect.html', username = current_user.username)
 
 
 # 빈 카메라 1 화면
