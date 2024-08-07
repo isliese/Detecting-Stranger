@@ -18,20 +18,30 @@
             position: relative;
         }
 
-        /* username 텍스트 스타일 */
-        #username_container {
-            align-self: flex-end; /* 오른쪽 정렬 */
+        /* 사용자 정보 컨테이너 */
+        #user_info {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
         }
 
         #username {
-            margin-top: 20px; /* 상단 여백 추가 */
-            margin-right: 20px; /* 우측 여백 추가 */
             font-weight: bold;
+            margin-right: 10px; /* 텍스트와 이미지 사이 여백 */
         }
 
         #username a {
             text-decoration: none; /* 링크 밑줄 제거 */
             color: inherit; /* 부모의 글꼴 색상 상속 */
+        }
+
+        /* logout 이미지 스타일 */
+        #logout img{
+            width: 85px; /* 이미지 크기 조정 */
+            height: auto;
+            cursor: pointer;
         }
 
         #back {
@@ -79,10 +89,17 @@
     </style>
 </head>
 <body>
-    <!-- Username 텍스트 -->
-    <div id="username_container">
-        <div id="username">
-            <a href="{{ url_for('registeredcard') }}">{{ username }}</a>
+    <div id="user_info">
+        <!-- Username 텍스트 -->
+        <div id="username">{{ username }}</div>
+
+        <!-- logout 이미지 -->
+        <div id="logout">
+            <form action="{{url_for('logout')}}" method="POST">
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                    <img src="{{ url_for('static', filename='image/logout.png') }}" alt="Logout Image"/>
+                </button>
+            </form>        
         </div>
     </div>
 

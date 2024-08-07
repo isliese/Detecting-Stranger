@@ -79,7 +79,7 @@ def signup():
     return render_template('SignUp.html')
 
 # 로그아웃
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
