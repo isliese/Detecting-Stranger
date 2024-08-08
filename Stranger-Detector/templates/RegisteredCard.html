@@ -17,11 +17,31 @@
             position: relative;
         }
 
+        /* 사용자 정보 컨테이너 */
+        #user_info {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
         #username {
-            margin-top: 20px;
-            margin-right: 10px;
             font-weight: bold;
-            align-self: flex-end;
+            margin-right: 10px; /* 텍스트와 이미지 사이 여백 */
+        }
+
+        #username a {
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: inherit; /* 부모의 글꼴 색상 상속 */
+        }
+
+        /* logout 이미지 스타일 */
+        #logout img{
+            width: 85px; /* 이미지 크기 조정 */
+            height: auto;
+            cursor: pointer;
         }
 
         #back {
@@ -193,27 +213,38 @@
     </style>
 </head>
 <body>
-<!-- Username 텍스트 -->
-<div id="username">{{ username }}</div>
+    <div id="user_info">
+        <!-- Username 텍스트 -->
+        <div id="username"><a href="{{ url_for('registeredcard') }}">{{ username }}</a></div>
 
-<!-- Back 이미지 -->
-<a href="{{ url_for('cam1') }}">
-    <img id="back" src="/static/image/Back.png" alt="Back">
-</a>
+        <!-- logout 이미지 -->
+        <div id="logout">
+            <form action="{{url_for('logout')}}" method="POST">
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; z-index: 1000;"">
+                    <img src="{{ url_for('static', filename='image/logout.png') }}" alt="Logout Image"/>
+                </button>
+            </form>        
+        </div>
+    </div>
+
+    <!-- Back 이미지 -->
+    <a href="{{ url_for('cam1') }}">
+        <img id="back" src="/static/image/Back.png" alt="Back">
+    </a>
 
 
-<div id="info-container">
-    <img id="info_icon" src="/static/image/info_icon.png" alt="Info Icon" onclick="toggleInfoText()">
-    <img id="info_text" src="/static/image/info_text.png" alt="Info Text">
-</div>
+    <div id="info-container">
+        <img id="info_icon" src="/static/image/info_icon.png" alt="Info Icon" onclick="toggleInfoText()">
+        <img id="info_text" src="/static/image/info_text.png" alt="Info Text">
+    </div>
 
-<!-- RegisteredPerson 텍스트 -->
-<div id="registered_person">등록된 {{ username }}의 지인</div>
+    <!-- RegisteredPerson 텍스트 -->
+    <div id="registered_person">등록된 {{ username }}의 지인</div>
 
-<!-- NameCard 컨테이너 -->
-<div id="cardContainer" class="card-container">
-    <img id="add-person" src="/static/image/add_person.png" alt="Add Person" onclick="addCard()">
-</div>
+    <!-- NameCard 컨테이너 -->
+    <div id="cardContainer" class="card-container">
+        <img id="add-person" src="/static/image/add_person.png" alt="Add Person" onclick="addCard()">
+    </div>
 
 <script>
     // 페이지가 로드될 때 실행되는 함수
