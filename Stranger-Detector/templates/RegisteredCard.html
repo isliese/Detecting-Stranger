@@ -134,7 +134,7 @@
             cursor: pointer;
             z-index: 10;
         }
-
+        
         .edit-input {
             width: 80%;
             padding: 5px;
@@ -220,7 +220,7 @@
         <!-- logout 이미지 -->
         <div id="logout">
             <form action="{{url_for('logout')}}" method="POST">
-                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; z-index: 1000;"">
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; z-index: 1000;">
                     <img src="{{ url_for('static', filename='image/logout.png') }}" alt="Logout Image"/>
                 </button>
             </form>        
