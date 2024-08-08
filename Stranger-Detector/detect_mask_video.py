@@ -7,6 +7,8 @@ from tensorflow.keras.models import load_model
 from imutils.video import VideoStream
 import imutils
 import time
+import custom_layers
+
 
 # LabelEncoder 객체 로드
 with open('label_encoder.pkl', 'rb') as f:
@@ -55,7 +57,7 @@ def generate_frames():
     faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 
     # 셀러브리티 인식 모델 로드 (H5 형식)
-    celebrityNet = load_model("celebrity_detector.h5")
+    celebrityNet = load_model("celebrity_detector.h5", custom_objects={'DepthwiseConv2D': custom_layers.CustomDepthwiseConv2D})
 
     # 웹캠 비디오 스트림 시작
     vs = VideoStream(src=0).start()
