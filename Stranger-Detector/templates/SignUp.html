@@ -127,8 +127,13 @@
 
     <script>
         {% if success %}
-        alert('회원가입에 성공했습니다!');
+        alert('{{ username }}님, 회원가입에 성공했습니다!');
         window.location.href = "{{ url_for('cam1') }}";
+        {% endif %}
+
+        // 이메일이 중복된 경우 경고 팝업 표시
+        {% if email_exists %}
+        alert('이 이메일은 이미 사용 중입니다. 다른 이메일을 입력하세요.');
         {% endif %}
     </script>    
 

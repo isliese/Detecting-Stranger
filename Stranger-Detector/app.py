@@ -75,8 +75,7 @@ def signup():
         # 이메일 중복 확인
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            flash('이미 사용 중인 이메일입니다.', 'danger')
-            return redirect(url_for('signup'))
+            return render_template('SignUp.html', email_exists=True)
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')  # 해시 메서드를 pbkdf2:sha256으로 변경
         new_user = User(username=username, email=email, password=hashed_password)
@@ -85,7 +84,7 @@ def signup():
         
         login_user(new_user)
         
-        return render_template('SignUp.html', success=True)
+        return render_template('SignUp.html', success=True, username=username)
     
     return render_template('SignUp.html')
 
