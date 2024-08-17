@@ -77,7 +77,7 @@ class CameraWidget(QWidget):
         self.capture_count = 0
         self.capture_timer = QTimer()
         self.capture_timer.timeout.connect(self.capture_image)
-        self.capture_timer.start(250)  # 1초에 4장 캡처
+        self.capture_timer.start(250)  # 30초 동안, 1초에 4장 캡처, 총 120장
         
     def capture_image(self):
         if self.capture_count < 120:
