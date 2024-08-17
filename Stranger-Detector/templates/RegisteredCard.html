@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지인 등록 카드 선택</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* 사용자 정보 컨테이너 */
+        #user_info {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        #username {
+            font-weight: bold;
+            margin-right: 10px; /* 텍스트와 이미지 사이 여백 */
+        }
+
+        #username a {
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: inherit; /* 부모의 글꼴 색상 상속 */
+        }
+
+        /* logout 이미지 스타일 */
+        #logout img{
+            width: 85px; /* 이미지 크기 조정 */
+            height: auto;
+            cursor: pointer;
+        }
+
+        #back {
+            position: absolute;
+            left: 35px;
+            top: 30px;
+            width: 148px;
+            height: 27px;
+        }
+
+        #registered_person {
+            position: absolute;
+            left: 52px;
+            top: 246px;
+            width: 398px;
+            height: 34px;
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .card-container {
+            display: flex;
+            align-items: flex-start;
+            overflow-x: auto;
+            overflow-y: hidden;
+            width: calc(100% - 20px);
+            padding-top: 315px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .card {
+            perspective: 1000px;
+            margin: 0 10px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .name_card {
+            width: 346px;
+            height: 487px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card.flipped .name_card {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+        }
+
+        .front {
+            background: url('/static/image/NameCard.png') no-repeat center center;
+        }
+
+        .name-text-front {
+            color: white;
+            font-size: 27px;
+            font-weight: bold;
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            width: auto;
+            text-align: left;
+            z-index: 1;
+        }
+
+        .edit-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 53px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .edit-input {
+            width: 80%;
+            padding: 5px;
+            position: absolute;
+            display: none;
+            z-index: 15;
+        }
+
+        .name-input {
+            top: 20%;
+        }
+
+        .description-input {
+            top: 35%;
+        }
+
+        .saved-text {
+            position: absolute;
+            width: 80%;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            word-wrap: break-word;
+            display: none;
+            z-index: 10;
+        }
+
+        .name-text {
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 10px;
+            top: 20%;
+        }
+
+        .description-text {
+            font-size: 16px;
+            top: 35%;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background: url('/static/image/NameCardBack.png') no-repeat center center;
+        }
+
+
+        .face-register {
+            position: absolute;
+            width: 90px;
+            height: 40px; /* Adjust as needed */
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: url('/static/image/FaceRegister.png') no-repeat center center;
+            background-size: contain;
+            z-index: 5;
+        }
+
+
+        #info-container {
+            position: absolute;
+            left: 460px;
+            top: 246px;
+            display: flex;
+            align-items: center;
+            z-index: 20;
+        }
+
+        #info_icon {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            margin-top: 5px;
+        }
+
+        #info_text {
+            display: none;
+            width: 519px;
+            height: auto;
+            margin-left: 15px;
+            z-index: 21;
+            position: absolute;
+            left: 30px;
+            bottom: 0px;
+        }
+
+        #add-person {
+            cursor: pointer;
+            width: 125px;
+            height: 155px;
+            margin-left: 20px;
+            margin-top: 140px;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="user_info">
+        <!-- Username 텍스트 -->
+        <div id="username">{{ username }}</a></div>
+
+        <!-- logout 이미지 -->
+        <div id="logout">
+            <form action="{{url_for('logout')}}" method="POST">
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer; z-index:1000;">
+                    <img src="{{ url_for('static', filename='image/logout.png') }}" alt="Logout Image"/>
+                </button>
+            </form>        
+        </div>
+    </div>
+
+<a href="{{ url_for('cam1') }}">
+    <img id="back" src="/static/image/Back.png" alt="Back">
+</a>
+
+<div id="info-container">
+    <img id="info_icon" src="/static/image/info_icon.png" alt="Info Icon" onclick="toggleInfoText()">
+    <img id="info_text" src="/static/image/info_text.png" alt="Info Text">
+</div>
+
+<div id="registered_person">등록된 {{ username }}의 지인</div>
+
+<div id="cardContainer" class="card-container">
+    <img id="add-person" src="/static/image/add_person.png" alt="Add Person" onclick="addCard()">
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const currentSessionID = sessionStorage.getItem('sessionID');
+        const newSessionID = Date.now().toString();
+
+        if (!currentSessionID) {
+            sessionStorage.setItem('sessionID', newSessionID);
+            localStorage.clear();
+        } else {
+            sessionStorage.setItem('sessionID', newSessionID);
+        }
+
+        loadCards();
+    });
+
+    function flipCard(card) {
+        card.classList.toggle('flipped');
+    }
+
+    function addCard(name = '', description = '') {
+    const cardContainer = document.getElementById('cardContainer');
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'card';
+
+    cardDiv.addEventListener('click', function(event) {
+        if (event.target.tagName !== 'INPUT') {
+            flipCard(this);
+        }
+    });
+
+    const nameCardDiv = document.createElement('div');
+    nameCardDiv.className = 'name_card';
+
+    const frontDiv = document.createElement('div');
+    frontDiv.className = 'front';
+
+    const nameTextFrontDiv = document.createElement('div');
+    nameTextFrontDiv.className = 'name-text-front';
+    nameTextFrontDiv.textContent = name;
+
+    const backDiv = document.createElement('div');
+    backDiv.className = 'back';
+
+    const editButton = document.createElement('img');
+    editButton.src = '/static/image/EditButton.png';
+    editButton.alt = 'Edit Button';
+    editButton.className = 'edit-button';
+
+    editButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        toggleEditInput(this);
+    });
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.className = 'edit-input name-input';
+    nameInput.placeholder = '이름을 입력해주세요';
+    nameInput.value = name;
+
+    const descriptionInput = document.createElement('input');
+    descriptionInput.type = 'text';
+    descriptionInput.className = 'edit-input description-input';
+    descriptionInput.placeholder = '설명을 입력해주세요';
+    descriptionInput.value = description;
+
+    nameInput.addEventListener('input', function() {
+        nameTextFrontDiv.textContent = this.value;
+    });
+
+    nameInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            saveText(this);
+        }
+    });
+
+    descriptionInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            saveText(this);
+        }
+    });
+
+    const nameTextDiv = document.createElement('div');
+    nameTextDiv.className = 'saved-text name-text';
+    nameTextDiv.textContent = name;
+    if (name) nameTextDiv.style.display = 'block';
+
+    const descriptionTextDiv = document.createElement('div');
+    descriptionTextDiv.className = 'saved-text description-text';
+    descriptionTextDiv.textContent = description;
+    if (description) descriptionTextDiv.style.display = 'block';
+
+    backDiv.appendChild(editButton);
+    backDiv.appendChild(nameInput);
+    backDiv.appendChild(descriptionInput);
+    backDiv.appendChild(nameTextDiv);
+    backDiv.appendChild(descriptionTextDiv);
+
+    const faceRegisterDiv = document.createElement('div');
+    faceRegisterDiv.className = 'face-register';
+
+    faceRegisterDiv.addEventListener('click', function(event) {
+        event.stopPropagation();
+        const nameText = nameTextDiv.textContent.trim();
+
+        if (nameText === '') {
+            alert('이름을 먼저 입력해주세요.');
+        } else {
+            window.location.href = "{{ url_for('capture') }}?name=" + encodeURIComponent(nameText);
+        }
+    });
+
+    backDiv.appendChild(faceRegisterDiv);
+
+    frontDiv.appendChild(nameTextFrontDiv);
+
+    nameCardDiv.appendChild(frontDiv);
+    nameCardDiv.appendChild(backDiv);
+
+    cardDiv.appendChild(nameCardDiv);
+
+    cardContainer.insertBefore(cardDiv, document.getElementById('add-person'));
+    }
+
+    function toggleEditInput(button) {
+        const backDiv = button.parentElement;
+        const nameInput = backDiv.querySelector('.name-input');
+        const descriptionInput = backDiv.querySelector('.description-input');
+        const nameText = backDiv.querySelector('.name-text');
+        const descriptionText = backDiv.querySelector('.description-text');
+
+        nameInput.value = nameText.textContent;
+        descriptionInput.value = descriptionText.textContent;
+
+        if (nameInput.style.display === 'block' || descriptionInput.style.display === 'block') {
+            nameInput.style.display = 'none';
+            descriptionInput.style.display = 'none';
+        } else {
+            nameInput.style.display = 'block';
+            descriptionInput.style.display = 'block';
+            nameInput.focus();
+        }
+
+        nameText.style.display = 'block';
+        descriptionText.style.display = 'block';
+    }
+
+    function saveText(input) {
+        const backDiv = input.parentElement;
+        const nameInput = backDiv.querySelector('.name-input');
+        const descriptionInput = backDiv.querySelector('.description-input');
+        const nameTextDiv = backDiv.querySelector('.name-text');
+        const descriptionTextDiv = backDiv.querySelector('.description-text');
+
+        if (input === nameInput) {
+            nameTextDiv.textContent = nameInput.value;
+            nameTextDiv.style.display = 'block';
+            nameInput.style.display = 'none';
+            const frontDiv = backDiv.parentElement.querySelector('.front .name-text-front');
+            frontDiv.textContent = nameInput.value;
+        } else if (input === descriptionInput) {
+            descriptionTextDiv.textContent = descriptionInput.value;
+            descriptionTextDiv.style.display = 'block';
+            descriptionInput.style.display = 'none';
+        }
+        saveCards();
+    }
+
+    function saveCards() {
+        const cardContainer = document.getElementById('cardContainer');
+        const cards = [];
+        cardContainer.querySelectorAll('.card').forEach(cardDiv => {
+            const nameText = cardDiv.querySelector('.name-text').textContent;
+            const descriptionText = cardDiv.querySelector('.description-text').textContent;
+            cards.push({ name: nameText, description: descriptionText });
+        });
+        localStorage.setItem('cards', JSON.stringify(cards));
+    }
+
+    function loadCards() {
+        const cards = JSON.parse(localStorage.getItem('cards') || '[]');
+        cards.forEach(card => addCard(card.name, card.description));
+    }
+
+    function toggleInfoText() {
+        const infoText = document.getElementById('info_text');
+        if (infoText.style.display === 'none' || infoText.style.display === '') {
+            infoText.style.display = 'block';
+        } else {
+            infoText.style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>

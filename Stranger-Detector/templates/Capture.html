@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture</title>
+    <style>
+        /* 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* 사용자 정보 컨테이너 */
+        #user_info {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        #username {
+            font-weight: bold;
+            margin-right: 10px; /* 텍스트와 이미지 사이 여백 */
+        }
+
+        #username a {
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: inherit; /* 부모의 글꼴 색상 상속 */
+        }
+
+        /* 설명 문구 스타일 */
+        #instruction_text {
+            margin-top: 200px; /* 상단 여백 */
+            font-size: 35px;
+            font-weight: bold;
+            text-align: center;
+            margin-right: 850px;
+        }
+
+        /* 이미지 위치 조정 */
+        #capture_instruction {
+            position: absolute;
+            top: 300px; /* 이미지의 Y 위치를 조정 */
+            left: 20px; /* 이미지의 X 위치를 조정 */
+            max-width: 100%; /* 화면 크기에 맞춰 이미지 크기 조정 */
+            height: auto; /* 이미지의 비율을 유지 */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 사용자 정보 -->
+    <div id="user_info">
+        <div id="username"><a href="{{ url_for('registeredcard') }}">{{ username }}</a></div>
+    </div>
+
+    <!-- 설명 문구 삽입 -->
+    <div id="instruction_text"></div>
+
+    <!-- Capture_insturction -->
+    <div id="capture_instructions">
+        <img id="capture_instruction" src="/static/image/Capture_instruction.png">
+    </div>
+
+    <script>
+        // URL에서 이름을 가져와 문구에 삽입
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+    
+        const instructionText = document.getElementById('instruction_text');
+        if (name && name.trim() !== '') {
+            instructionText.textContent = `아래 설명에 따라 ${name}님의 얼굴을 등록해보세요`;
+        } else {
+            instructionText.textContent = `아래 설명에 따라 얼굴을 등록해보세요`; // 이름이 없을 경우의 기본 문구
+        }
+    </script>
+    
+</body>
+</html>
