@@ -20,7 +20,7 @@
         }
 
         #title_bar {
-            margin: 30px 0 0 30px; /* title 위치 조정 */
+            margin: 30px 0 0 30px;
             align-self: flex-start;
         }
 
@@ -38,14 +38,14 @@
         }
 
         #container div {
-            margin: 7px 0; /* 각 요소 사이의 간격 */
-            width: 60vw; /* Adjust this to control the width of the container div */
-            max-width: 300px; /* 최대 너비 설정 */
+            margin: 7px 0;
+            width: 60vw;
+            max-width: 300px;
         }
 
         #container img {
-            width: 100%; /* 이미지를 부모 요소의 너비에 맞추기 */
-            height: auto; /* 비율에 맞게 자동 조정 */
+            width: 100%;
+            height: auto;
         }
 
         @media (min-width: 600px) {
@@ -65,23 +65,21 @@
         button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #4ce1bb;
             color: white;
             border: none;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #46c5a5;
         }
 
-        /* 이미지 크기 조정 */
         #signup_button img {
-            max-width: 200px; /* 원하는 최대 너비로 설정 */
-            height: auto; /* 비율에 맞게 자동 조정 */
+            max-width: 200px;
+            height: auto;
         }
 
-        /* 새로운 문구 스타일 */
         .signup-text a {
             margin-top: 20px;
             text-align: center;
@@ -89,7 +87,7 @@
         }
 
         .signup-text a {
-            color: #4CAF50;
+            color: #4ce1bb;
             text-decoration: none;
             font-weight: bold;
         }
@@ -97,7 +95,6 @@
         .signup-text a:hover {
             text-decoration: underline;
         }
-
     </style>
 </head>
 
@@ -111,25 +108,23 @@
     </div>
 
     <div id="container">
-        <form method="POST" action="{{ url_for('login') }}">
-            <!-- email 텍스트-->
-            <div id="email">
-                Email
-            </div>
+
+        <!-- 폼에서 method와 action을 제거하여 JavaScript가 요청을 처리하게 함 -->
+        <form id="loginForm">
+            <!-- email 텍스트 -->
+            <div id="email">Email</div>
 
             <!-- email value 박스 이미지 -->
             <div id="email_value">
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="emailInput" name="email" required>
             </div>
 
             <!-- password 텍스트 -->
-            <div id="password">
-                Password
-            </div>
+            <div id="password">Password</div>
 
             <!-- password value 박스 이미지 -->
             <div id="password_value">
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="passwordInput" name="password" required>
             </div>
 
             <!-- login 버튼 -->
@@ -137,21 +132,51 @@
                 <button type="submit">Login</button>
             </div>
         </form>
+        
 
-        <!-- sign up 버튼 이미지 -->
-        <!--<div id="signup_button">
-            <a href="{{ url_for('signup') }}">
-                <img src="{{ url_for('static', filename='image/signup_button.png') }}" alt="Sign Up Button Image" />
-            </a>
-        </div>-->
-
+        <!-- 메시지를 표시할 영역 -->
+        <div id="message"></div>
 
         <!-- 새로운 문구 추가 -->
         <div class="signup-text">
             계정이 없으신가요? <a href="{{ url_for('signup') }}">Sign Up 하기</a>
         </div>
-
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 기본 폼 제출 동작을 막음
+        
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+        
+            fetch('/Login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message); // 로그인 성공 메시지를 팝업으로 표시
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url;
+                    }, 2000);
+                } else {
+                    alert(data.message); // 로그인 실패 메시지를 팝업으로 표시
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
+    </script>
 
 </body>
 

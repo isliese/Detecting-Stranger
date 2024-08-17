@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, Response
+from flask import Flask, render_template, redirect, url_for, request, flash, Response, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
@@ -41,18 +41,29 @@ def index():
 # 로그인 화면
 @app.route('/Login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        data = request.get_json()
+        if not data:
+            return jsonify({'success': False, 'message': 'Invalid request, expectiong JSON data.'}), 400
+        email = data.get('email')
+        password = data.get('password')
+    
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            next_page = request.args.get('next')
-            return redirect(next_page or url_for('emptycam1select'))  # 로그인 성공 시 cam1 화면으로 리다이렉트
+            response = {
+                'success': True,
+                'message': '로그인에 성공했습니다.',
+                'redirect_url': url_for('emptycam1select')
+            }
         else:
-            flash('로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.', 'danger')
-    return render_template('Login.html')
-
+            response = {
+                'success': False,
+                'message': '로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.'
+            }    
+        return jsonify(response)
 # 회원가입 화면
 @app.route('/SignUp', methods=['GET', 'POST'])
 def signup():
