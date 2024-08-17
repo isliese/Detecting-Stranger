@@ -82,11 +82,11 @@ def signup():
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash('회원가입에 성공하였습니다!', 'success')
         
         login_user(new_user)
         
-        return redirect(url_for('cam1'))  # 회원가입 성공 시 cam1 화면으로 리다이렉트
+        return render_template('SignUp.html', success=True)
+    
     return render_template('SignUp.html')
 
 # 로그아웃

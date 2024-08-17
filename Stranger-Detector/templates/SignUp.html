@@ -125,6 +125,13 @@
         </form>
     </div>
 
+    <script>
+        {% if success %}
+        alert('회원가입에 성공했습니다!');
+        window.location.href = "{{ url_for('cam1') }}";
+        {% endif %}
+    </script>    
+
 </body>
 
 </html>
