@@ -130,6 +130,13 @@ def registeredcard():
 def video_feed():
     return Response(detect_mask_video.generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+# 지인 얼굴 등록 화면 (Capture.py 크게 띄울 화면)
+@app.route('/Capture')
+@login_required
+def capture():
+    return render_template('Capture.html', username = current_user.username)
+
+
 if __name__ == '__main__':
     # 데이터베이스 파일 삭제 전 연결 종료
     if os.path.exists(dbfile):
