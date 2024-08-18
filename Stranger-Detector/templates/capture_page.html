@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +53,6 @@
         }
     </style>
 </head>
-
 <body>
     <h1>지인 얼굴 등록</h1>
     <video id="video" autoplay></video>
@@ -100,21 +98,24 @@
                     if (timer < 0) {
                         clearInterval(timerInterval);
                         timerDisplay.textContent = '00:00';
-                        statusMessage.textContent = '얼굴 등록이 완료되었습니다!';
+                        statusMessage.textContent = '얼굴 등록이 진행중입니다...';
                         
                         // 팝업 알림 띄우기
-                        alert('지인 얼굴을 인식할 준비가 끝났습니다!');
+                        alert('얼굴 인식 준비 (1/2) 완료, 인공지능 학습을 시작합니다!');
+
+                        // 인공지능 학습 중임을 알림
+                        statusMessage.textContent = '인공지능이 모델을 학습중입니다...';
+
+                        // 2초 후에 자동으로 등록 완료 페이지로 리디렉션
+                        setTimeout(() => {
+                            window.location.href = '{{ url_for("registeredcard") }}';
+                        }, 2000);
 
                         // 웹캠 스트림 중지
                         if (stream) {
                             let tracks = stream.getTracks();
                             tracks.forEach(track => track.stop());
                         }
-
-                        // 2초 후에 자동으로 등록 완료 페이지로 리디렉션
-                        setTimeout(() => {
-                            window.location.href = 'http://127.0.0.1:5001/RegisteredCard';
-                        }, 2000);
                     }
                 }, 1000);
             }
@@ -159,5 +160,4 @@
         });
     </script>
 </body>
-
 </html>
