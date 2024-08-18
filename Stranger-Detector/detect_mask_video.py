@@ -1,10 +1,12 @@
 import cv2
 import numpy as np
 import pickle
+import os
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 from imutils.video import VideoStream
+from sklearn.preprocessing import LabelEncoder
 import imutils
 import time
 from PIL import ImageFont, ImageDraw, Image
@@ -13,8 +15,13 @@ import custom_layers
 system_font_path = "/Users/leehyunchin/Downloads/Nanum_Gothic/NanumGothic-Regular.ttf"
 
 # LabelEncoder 객체 로드
-with open('label_encoder.pkl', 'rb') as f:
-    lb = pickle.load(f)
+label_encoder_path = 'label_encoder.pkl'
+if os.path.exists(label_encoder_path):
+    with open(label_encoder_path, 'rb') as f:
+        lb = pickle.load(f)
+else:
+    print(f"[INFO] '{label_encoder_path}' 파일을 찾을 수 없습니다. 새로운 레이블 인코더를 생성합니다.")
+    lb = None  # 파일이 없는 경우 None으로 설정
 
 def detect_and_predict_celebrity(frame, faceNet, celebrityNet, lb):
     (h, w) = frame.shape[:2]
@@ -90,11 +97,10 @@ def generate_frames():
             confidence = pred[max_index]
 
             # 예측 확률이 0.5 이상일 경우에만 레이블 표시
-            if confidence > 0.5:
+            if confidence > 0.5 and lb is not None and hasattr(lb, 'classes_'):
                 label = lb.classes_[max_index]
                 color = (0, 255, 0)
                 label_text = "{}: {:.2f}%".format(label, confidence * 100)
-                
             else:
                 label_text = "미등록자"
                 color = (0, 0, 255)
