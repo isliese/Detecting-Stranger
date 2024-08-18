@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <style>
+        /* 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        #title_bar {
+            margin: 30px 0 0 30px;
+            align-self: flex-start;
+        }
+
+        #title_bar img {
+            width: 60vw;
+            max-width: 1000px;
+            height: auto;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #container div {
+            margin: 7px 0;
+            width: 60vw;
+            max-width: 300px;
+        }
+
+        #container img {
+            width: 100%;
+            height: auto;
+        }
+
+        @media (min-width: 600px) {
+            #container img {
+                width: 40vw;
+            }
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4ce1bb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #46c5a5;
+        }
+
+        #signup_button img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .signup-text a {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .signup-text a {
+            color: #4ce1bb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Title 이미지 -->
+    <div id="title_bar">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='image/title_bar.png') }}" alt="Title Image" />
+        </a>
+    </div>
+
+    <div id="container">
+
+        <!-- 폼에서 method와 action을 제거하여 JavaScript가 요청을 처리하게 함 -->
+        <form id="loginForm">
+            <!-- email 텍스트 -->
+            <div id="email">Email</div>
+
+            <!-- email value 박스 이미지 -->
+            <div id="email_value">
+                <input type="email" id="emailInput" name="email" required>
+            </div>
+
+            <!-- password 텍스트 -->
+            <div id="password">Password</div>
+
+            <!-- password value 박스 이미지 -->
+            <div id="password_value">
+                <input type="password" id="passwordInput" name="password" required>
+            </div>
+
+            <!-- login 버튼 -->
+            <div id="login_button">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        
+
+        <!-- 메시지를 표시할 영역 -->
+        <div id="message"></div>
+
+        <!-- 새로운 문구 추가 -->
+        <div class="signup-text">
+            계정이 없으신가요? <a href="{{ url_for('signup') }}">Sign Up 하기</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 기본 폼 제출 동작을 막음
+        
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+        
+            fetch('/Login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, password: password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message); // 로그인 성공 메시지를 팝업으로 표시
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url;
+                    }, 2000);
+                } else {
+                    alert(data.message); // 로그인 실패 메시지를 팝업으로 표시
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
+    </script>
+
+</body>
+
+</html>

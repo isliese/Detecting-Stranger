@@ -1,0 +1,133 @@
+<!-- Capture.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture</title>
+    <style>
+        /* 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* 사용자 정보 컨테이너 */
+        #user_info {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        #username {
+            font-weight: bold;
+            margin-right: 10px; /* 텍스트와 이미지 사이 여백 */
+        }
+
+        #username a {
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: inherit; /* 부모의 글꼴 색상 상속 */
+        }
+
+        /* 설명 문구 스타일 */
+        #instruction_text {
+            margin-top: 200px; /* 상단 여백 */
+            font-size: 35px;
+            font-weight: bold;
+            text-align: left; /* 텍스트를 왼쪽 정렬 */
+            margin-left: 20px; /* 이미지와 동일한 X 위치에서 문구가 시작되도록 설정 */
+            white-space: nowrap; /* 텍스트가 줄 바꿈 없이 한 줄로 표시되도록 함 */
+        }
+
+        /* 이미지 위치 조정 */
+        #capture_instruction {
+            position: absolute;
+            top: 300px; /* 이미지의 Y 위치를 조정 */
+            left: 20px; /* 이미지의 X 위치를 조정 */
+            max-width: 100%; /* 화면 크기에 맞춰 이미지 크기 조정 */
+            height: auto; /* 이미지의 비율을 유지 */
+        }
+
+        /* 버튼 스타일 */
+        #start_button {
+            position: absolute;
+            bottom: 50px; /* 화면 하단에서의 거리 */
+            left: 50%;
+            transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+            padding: 15px 30px; /* 버튼의 내부 여백 */
+            font-size: 20px; /* 버튼 텍스트 크기 */
+            background-color: #007BFF; /* 버튼 배경색 */
+            color: #ffffff; /* 버튼 텍스트 색상 */
+            border: none; /* 기본 테두리 제거 */
+            border-radius: 5px; /* 모서리를 둥글게 */
+            cursor: pointer; /* 커서 모양을 포인터로 변경 */
+            transition: background-color 0.3s; /* 배경색 변경에 애니메이션 추가 */
+        }
+
+        #start_button:hover {
+            background-color: #0056b3; /* 호버 시 버튼 배경색 변경 */
+        }
+
+        /*Back 버튼 */
+        #back {
+            position: absolute;
+            left: 35px;
+            top: 30px;
+            width: 148px;
+            height: 27px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 사용자 정보 -->
+    <div id="user_info">
+        <div id="username"><a href="{{ url_for('registeredcard') }}">{{ username }}</a></div>
+    </div>
+
+    <!-- 설명 문구 삽입 -->
+    <div id="instruction_text">아래 설명에 따라 {{ name }}님의 얼굴을 등록해보세요</div>
+
+    <!-- Capture_instruction -->
+    <div id="capture_instructions">
+        <img id="capture_instruction" src="/static/image/Capture_instruction.png">
+    </div>
+
+    <!-- Back 이미지 -->
+    <a href="{{ url_for('registeredcard') }}">
+        <img id="back" src="/static/image/Back.png" alt="Back">
+    </a>
+
+    <!-- 얼굴 등록 시작 버튼 -->
+    <button id="start_button">얼굴 등록 시작</button>
+
+    <script>
+        // URL에서 이름을 가져와 문구에 삽입
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+    
+        const instructionText = document.getElementById('instruction_text');
+        if (name && name.trim() !== '') {
+            instructionText.textContent = `아래 설명에 따라 ${name}님의 얼굴을 등록해보세요`;
+        } else {
+            instructionText.textContent = `아래 설명에 따라 얼굴을 등록해보세요`; // 이름이 없을 경우의 기본 문구
+        }
+
+        // 버튼 클릭 시 폴더 이름을 URL에 추가하여 새로운 페이지로 이동
+        document.getElementById('start_button').addEventListener('click', function() {
+            if (name) {
+                window.location.href = `/start_capture/${encodeURIComponent(name)}`;
+            }
+        });
+    </script>
+</body>
+</html>
