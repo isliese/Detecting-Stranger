@@ -15,6 +15,19 @@ import numpy as np
 import os
 import pickle
 
+# 모델 파일과 레이블 인코더 파일 경로
+model_path = "celebrity_detector.model"
+label_encoder_path = "label_encoder.pkl"
+
+# 기존 모델 파일과 레이블 인코더 파일 삭제
+if os.path.exists(model_path):
+    os.remove(model_path)
+    print(f"[INFO] '{model_path}' 파일을 삭제했습니다.")
+
+if os.path.exists(label_encoder_path):
+    os.remove(label_encoder_path)
+    print(f"[INFO] '{label_encoder_path}' 파일을 삭제했습니다.")
+
 # 초기 학습률, 에포크 수, 배치 크기 설정
 INIT_LR = 1e-4
 EPOCHS = 20
