@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+
+    <style>
+        /* 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            font-family: Arial, sans-serif; /* 폰트 설정 */
+        }
+
+        #title_bar {
+            margin: 30px 0 0 30px; /* title 위치 조정 */
+            align-self: flex-start;
+        }
+
+        #title_bar img {
+            width: 80vw; /* 크기 증가 */
+            max-width: 1200px; /* 크기 증가 */
+            height: auto;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #container div {
+            margin: 10px 0; /* 각 요소 사이의 간격 증가 */
+            width: 70vw; /* 크기 증가 */
+            max-width: 400px; /* 크기 증가 */
+        }
+
+        #container img {
+            width: 100%; /* 이미지를 부모 요소의 너비에 맞추기 */
+            height: auto; /* 비율에 맞게 자동 조정 */
+        }
+
+        @media (min-width: 600px) {
+            #container img {
+                width: 50vw; /* 크기 증가 */
+            }
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 15px; /* 크기 증가 */
+            font-size: 1.2em; /* 폰트 크기 증가 */
+            margin: 10px 0; /* 간격 증가 */
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px; /* 크기 증가 */
+            font-size: 1.2em; /* 폰트 크기 증가 */
+            background-color: #4ce1bb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #46c5a5;
+        }
+
+        /* 이미지 크기 조정 */
+        #signup_button img {
+            max-width: 250px; /* 크기 증가 */
+            height: auto; /* 비율에 맞게 자동 조정 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Title 이미지 -->
+    <div id="title_bar">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='image/title_bar.png') }}" alt="Title Image" />
+        </a>
+    </div>
+
+    <div id="container">
+        <form method="POST" action="{{ url_for('signup') }}">
+            <!-- username 텍스트-->
+            <div id="username">
+                User name
+            </div>
+            <div id="username_value">
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <!-- email 텍스트-->
+            <div id="email">
+                Email
+            </div>
+            <div id="email_value">
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <!-- password 텍스트 -->
+            <div id="password">
+                Password
+            </div>
+            <div id="password_value">
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <!-- sign up 버튼 -->
+            <div id="signup_button">
+                <button type="submit">Sign Up</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        {% if success %}
+        alert('{{ username }}님, 회원가입에 성공했습니다!');
+        window.location.href = "{{ url_for('cam1') }}";
+        {% endif %}
+
+        // 이메일이 중복된 경우 경고 팝업 표시
+        {% if email_exists %}
+        alert('이 이메일은 이미 사용 중입니다. 다른 이메일을 입력하세요.');
+        {% endif %}
+    </script>    
+
+</body>
+
+</html>
