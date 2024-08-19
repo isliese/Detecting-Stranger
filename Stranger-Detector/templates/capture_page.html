@@ -95,14 +95,14 @@
 
                     if (--timer < 0) {
                         clearInterval(timerInterval);
-                        statusMessage.textContent = '캡처가 완료되었습니다.';
+                        statusMessage.textContent = '인식을 위한 등록이 완료되었습니다. 모델 학습을 시작할까요?';
                         stream.getTracks().forEach(track => track.stop());
                         trainModel();
                     }
                 }, 1000);
             }
 
-            statusMessage.textContent = '캡처 중...';
+            statusMessage.textContent = '얼굴 등록을 진행중입니다..';
 
             const captureInterval = setInterval(() => {
                 const canvas = document.createElement('canvas');
