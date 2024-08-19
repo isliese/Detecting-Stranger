@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Faces</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        video {
+            width: 320px;
+            height: 240px;
+            border: 1px solid #ddd;
+        }
+
+        #capture_button {
+            margin-top: 25px;
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #capture_button:hover {
+            background-color: #0056b3;
+        }
+
+        #status_message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        #timer {
+            margin-top: 10px;
+            font-size: 24px;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>지인 얼굴 등록</h1>
+    <video id="video" autoplay></video>
+    <button id="capture_button">등록 시작</button>
+    <div id="status_message"></div>
+    <div id="timer"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const captureButton = document.getElementById('capture_button');
+        const statusMessage = document.getElementById('status_message');
+        const timerDisplay = document.getElementById('timer');
+        const folderName = "{{ folder_name }}"; 
+        let stream;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(s => {
+                stream = s;
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error('Error accessing webcam: ', error);
+            });
+
+        captureButton.addEventListener('click', function() {
+            let imageCount = 0;
+            const totalImages = 120;
+            const interval = 250;
+            const totalDuration = 30;
+
+            function startTimer(duration) {
+                let timer = duration, minutes, seconds;
+                const timerInterval = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    timerDisplay.textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        clearInterval(timerInterval);
+                        statusMessage.textContent = '캡처가 완료되었습니다.';
+                        stream.getTracks().forEach(track => track.stop());
+                        trainModel();
+                    }
+                }, 1000);
+            }
+
+            statusMessage.textContent = '캡처 중...';
+
+            const captureInterval = setInterval(() => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                const imageData = canvas.toDataURL('image/jpeg');
+                
+                fetch('/upload_image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        image: imageData,
+                        folder: folderName
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data.message);
+                    } else {
+                        console.error(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error uploading image:', error);
+                });
+
+                imageCount++;
+                if (imageCount >= totalImages) {
+                    clearInterval(captureInterval);
+                }
+            }, interval);
+
+            startTimer(totalDuration);
+        });
+
+        function trainModel() {
+            statusMessage.textContent = '인공지능이 모델을 학습중입니다...';
+            
+            fetch('/train_model', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(data.message);
+                    checkTrainingStatus(); // 학습 상태 확인 시작
+                } else {
+                    console.error(data.message);
+                    statusMessage.textContent = '모델 학습 중 오류가 발생했습니다.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                statusMessage.textContent = '모델 학습 요청 중 오류가 발생했습니다.';
+            });
+        }
+
+        function checkTrainingStatus() {
+            const statusInterval = setInterval(() => {
+                fetch('/training_status', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'completed') {
+                        clearInterval(statusInterval);
+                        alert('모델 학습이 완료되었습니다.');
+                        window.location.href = '/RegisteredCard';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking training status:', error);
+                });
+            }, 5000); // 5초마다 상태 체크
+        }
+    </script>
+</body>
+</html>
