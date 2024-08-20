@@ -65,6 +65,33 @@ def stop_video_stream():
             video_stream_thread.join()
             video_stream_thread = None
 
+# 서버 코드에 추가할 엔드포인트
+@app.route('/status_update')
+@login_required
+def status_update():
+    global last_warning
+    return jsonify({"message": last_warning})
+
+last_warning = None  # 전역 변수로 선언
+
+def monitor_output():
+    process = subprocess.Popen(
+        ['python3', 'detect_mask_video.py'],  # 실행할 스크립트
+        stdout=subprocess.PIPE,               # 표준 출력을 파이프에 연결
+        stderr=subprocess.PIPE,               # 표준 오류를 파이프에 연결
+        text=True                             # 텍스트 모드로 출력 읽기
+    )
+    
+    while True:
+        output = process.stdout.readline()  # 표준 출력에서 한 줄 읽기
+        if output:
+            output = output.strip()  # 공백 제거
+            if "Warning: '미등록자'가 50번 연속 감지되었습니다!" in output:
+                print(output)  # 또는 다른 처리 방법
+        if process.poll() is not None:  # 서브프로세스가 종료되었는지 확인
+            break
+
+
 # 홈 화면
 @app.route('/')
 def index():
@@ -261,6 +288,10 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         print("Database initialized.")
+    
+    # 모니터링 스레드 시작
+    monitoring_thread = threading.Thread(target=monitor_output)
+    monitoring_thread.start()
     
     # Flask 앱 실행
     app.run(debug=True, port=5001)

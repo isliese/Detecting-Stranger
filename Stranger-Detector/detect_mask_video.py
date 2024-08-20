@@ -79,6 +79,10 @@ def generate_frames():
     vs = VideoStream(src=0).start()
     time.sleep(2.0)
 
+    # 미등록자 카운터 초기화
+    unknown_counter = 0
+    unknown_threshold = 50  # 연속으로 미등록자를 감지할 횟수
+
     while True:
         frame = vs.read()
         frame = imutils.resize(frame, width=400)
@@ -94,13 +98,19 @@ def generate_frames():
             
             if label == "미등록자":
                 color = (0, 0, 255)  # 빨간색
+                unknown_counter += 1  # 미등록자 카운터 증가
             else:
                 color = (0, 255, 0)  # 녹색
+                unknown_counter = 0  # 미등록자가 아니면 카운터 초기화
 
             label_text = "{}: {:.2f}%".format(label, confidence * 100)
             print(f"Label: {label_text}")  # 디버깅: 레이블 텍스트 출력
             frame = put_korean_text(frame, label_text, (startX, startY - 30), font_size=20, color=color)
             cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+
+        # 미등록자 연속 카운터 체크
+        if unknown_counter >= unknown_threshold:
+            print("Warning: '미등록자'가 50번 연속 감지되었습니다!")
 
         # Frame encoding
         ret, jpeg = cv2.imencode('.jpg', frame)
@@ -112,3 +122,4 @@ def generate_frames():
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
     vs.stop()
+
