@@ -1,12 +1,13 @@
 # Detecting-Stranger
 
-<h4>숙명여자대학교 인공지능공학부 CODE - IT  학회 2024 여름방학 프로잭트</h4>
+<h4>숙명여자대학교 인공지능공학부 CODE - IT  학회 2024 여름방학 프로젝트</h4>
 
 
 <details>
   <summary><h3>프로젝트 소개</h3>
   </summary>
 초인종이 울렸을 때 현관 앞에 나타난 사람의 얼굴을 인식해서 사전에 등록된 사람이 아닐 경우, 가족에게 알림을 주고 신고까지 이어지도록 하는 프로그램
+Recognize the person's face that appears in front of the front door when the doorbell rings. It is a program that notifies the family if they are not registered in advance and leads to a report.
 </details>
 
 
