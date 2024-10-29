@@ -14,14 +14,11 @@ Recognize the person's face that appears in front of the front door when the doo
 
 
 ## IDE
-<img src="https://img.shields.io/badge/Visual Studio-5C2D91?style=flat-square&logo=Visual Studio&logoColor=white"/>
-<img src="https://img.shields.io/badge/Figma-F24E1E?styleat-square&logo=figma&logoColor=white"/>
+<img src="https://img.shields.io/badge/Visual Studio-5C2D91?style=flat-square&logo=Visual Studio&logoColor=white"/> <img src="https://img.shields.io/badge/Figma-F24E1E?styleat-square&logo=figma&logoColor=white"/>
 
 
 ## 협업 툴
-<img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/>
-<img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
-<img src="https://img.shields.io/badge/Kakao Talk-FFCD00?style=flat-square&logo=kakaotalk&logoColor=white"/>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/> <img src="https://img.shields.io/badge/Kakao Talk-FFCD00?style=flat-square&logo=kakaotalk&logoColor=white"/>
 
 
 ## 팀원 
