@@ -5,8 +5,8 @@
 
 
 <h3>프로젝트 소개</h3>
-초인종이 울렸을 때 현관 앞에 나타난 사람의 얼굴을 인식해서 사전에 등록된 사람이 아닐 경우, 가족에게 알림을 주고 신고까지 이어지도록 하는 프로그램 <br>
-Recognize the person's face that appears in front of the front door when the doorbell rings. It is a program that notifies the family if they are not registered in advance and leads to a report.
+<h5>초인종이 울렸을 때 현관 앞에 나타난 사람의 얼굴을 인식해서 사전에 등록된 사람이 아닐 경우, 가족에게 알림을 주고 신고까지 이어지도록 하는 프로그램 <br>
+Recognize the person's face that appears in front of the front door when the doorbell rings. It is a program that notifies the family if they are not registered in advance and leads to a report. </h5>
 
 
 <h3>언어</h3>
@@ -30,14 +30,14 @@ Recognize the person's face that appears in front of the front door when the doo
 
 <h3>팀원 및 참고 자료</h3>
 
-숙명여자대학교 인공지능공학부 23학번 김찬란 <br>
+<h5>숙명여자대학교 인공지능공학부 23학번 김찬란 <br>
 숙명여자대학교 인공지능공학부 23학번 이연진 <br>
-숙명여자대학교 인공지능공학부 23학번 이현진 <br>
+숙명여자대학교 인공지능공학부 23학번 이현진 <br> </h5>
   
 
 
 <h3>라이센스</h3>
-
+<h5>
 MIT License
 
 Copyright (c) 2024 Chanran kim, Yeonjin Lee, Hyunjin Lee
@@ -59,4 +59,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
+</h5>
